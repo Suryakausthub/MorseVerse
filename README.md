@@ -1,28 +1,27 @@
-==============================================================
+
 Comparative Analysis of Morse Code Detection: TinyML vs. Cloud-Based ML
 ==============================================================
 
 Authors:
-  • Shail Garg            (BL.EN.U4CSE22254)
-  • Gayatri Yerukola      (BL.EN.U4CSE22267)
-  • A. Surya Kausthub     (BL.EN.U4CSE22287)
+•	 Shail Garg            (BL.EN.U4CSE22254)
+•	 Gayatri Yerukola      (BL.EN.U4CSE22267)
+•	 A. Surya Kausthub     (BL.EN.U4CSE22287)
 
 PROJECT OVERVIEW
 ----------------
 This repository contains code, models, and documentation for a side-by-side comparison of two deployment strategies for real-time Morse-code translation:
 
   1) TinyML (Edge)
-     - Lightweight Transformer/LSTM model running on an ESP32 via TensorFlow Lite for Microcontrollers.
-     - Fully on-device inference with minimal network dependency and very low latency.
+	Lightweight Transformer/LSTM model running on an ESP32 via TensorFlow Lite for Microcontrollers.
+	Fully on-device inference with minimal network dependency and very low latency.
 
   2) Cloud-Based ML
-     - Full-scale Transformer/LSTM model served by FastAPI on GPU-equipped servers.
-     - Remote inference over Wi-Fi; leverages powerful compute resources but incurs network round-trip delay.
+	Full-scale Transformer/LSTM model served by FastAPI on GPU-equipped servers.
+	Remote inference over Wi-Fi; leverages powerful compute resources but incurs network round-trip delay.
 
 We evaluate both systems on identical tap inputs and compare:
-  • Accuracy (%)  
-  • End-to-end Latency (ms)  
-  • Power Consumption (mW)  
+	Accuracy (%)  
+	End-to-end Latency (ms)  
 
 Results are visualized in a web dashboard for easy analysis.
 
@@ -99,7 +98,7 @@ RESULTS & METRICS
 -----------------
 Metric               | TinyML (ESP32)   | Cloud ML (Server)
 ---------------------|------------------|-------------------
-Accuracy             | ~92%             | ~97%
+Accuracy             | ~70%             | ~82%
 End-to-End Latency   | <50 ms           | 300–500 ms
 Power Consumption    | <200 mW          | N/A
 
