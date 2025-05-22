@@ -1,132 +1,145 @@
-
-Comparative Analysis of Morse Code Detection: TinyML vs. Cloud-Based ML
-==============================================================
+Morse Code Translator using TinyML
 
 Authors:
-•	 Shail Garg            (BL.EN.U4CSE22254)
-•	 Gayatri Yerukola      (BL.EN.U4CSE22267)
-•	 A. Surya Kausthub     (BL.EN.U4CSE22287)
+Shail Garg, Yerukola Gayatri, Surya Kausthub A, Pooja Gowda
+Department of Computer Science and Engineering
+Amrita School of Computing, Bengaluru, Amrita Vishwa Vidyapeetham
 
-PROJECT OVERVIEW
-----------------
-This repository contains code, models, and documentation for a side-by-side comparison of two deployment strategies for real-time Morse-code translation:
+🔍 Overview
+This project presents a comparative analysis between two approaches for Morse code translation via touch input:
 
-  1) TinyML (Edge)
-	Lightweight Transformer/LSTM model running on an ESP32 via TensorFlow Lite for Microcontrollers.
-	Fully on-device inference with minimal network dependency and very low latency.
+Edge Computing using TinyML on an ESP32 with a TTP223B capacitive touch sensor
 
-  2) Cloud-Based ML
-	Full-scale Transformer/LSTM model served by FastAPI on GPU-equipped servers.
-	Remote inference over Wi-Fi; leverages powerful compute resources but incurs network round-trip delay.
+Cloud-based translation using an LSTM autoencoder deployed on a remote server
 
-We evaluate both systems on identical tap inputs and compare:
-	Accuracy (%)  
-	End-to-end Latency (ms)  
+The objective is to evaluate trade-offs between accuracy, latency, and deployment efficiency for real-time Morse code decoding.
 
-Results are visualized in a web dashboard for easy analysis.
+🚀 Features
+Tap-based Morse code input via capacitive touch sensor
 
-REPOSITORY STRUCTURE
---------------------
-.
-├── cloud-backend/  
-│     app.py               FastAPI server receives tap data and returns decoded text  
-│     requirements.txt     Python dependencies for cloud service  
-│     models/  
-│         cloud_transformer.pt   Trained PyTorch model for server inference  
+Real-time decoding using an LSTM model on ESP32 (TinyML)
 
-├── edge-firmware/  
-│     main.cpp             ESP32 firmware: sensor input, preprocessing, TinyML inference  
-│     model.tflite         Quantized TensorFlow Lite model for on-device use  
-│     platformio.ini       PlatformIO build configuration  
+High-accuracy cloud decoding using PyTorch-based LSTM model
 
-├── dashboard/  
-│     src/                 Frontend source (React or Vue) for live comparison charts  
-│     package.json         Node.js dependencies and scripts  
-│     README.md            Dashboard setup and usage instructions  
+REST API-based cloud inference
 
-├── data/  
-│     morse_dataset.xlsx   Original tap-to-text dataset  
-│     processed.csv        Cleaned and preprocessed training data  
+Performance comparison with metrics: Accuracy, Latency, F1-Score, Deployment Complexity
 
-├── notebooks/  
-│     training.ipynb       Jupyter notebook for model training and evaluation  
-│     analysis.ipynb       Notebook for logging, metrics calculation, and plotting  
+Designed for applications in assistive tech, emergency communication, and wearables
 
-└── README.txt            This file
+🧱 Hardware & Software Requirements
+Hardware:
+ESP32 Microcontroller
 
-INSTALLATION & SETUP
---------------------
+TTP223B Capacitive Touch Sensor
 
-1) Cloud Backend
-   a) Create Python v3.9+ virtual environment  
-      └─ python -m venv .venv  
-         Windows: .venv\Scripts\activate  
-         macOS/Linux: source .venv/bin/activate  
-   b) Install dependencies  
-      └─ pip install -r cloud-backend/requirements.txt  
-   c) Run the server  
-      └─ uvicorn cloud-backend.app:app --host 0.0.0.0 --port 8000  
+OLED Display (Optional, for TinyML output)
 
-2) Edge Firmware
-   a) Install PlatformIO CLI or VS Code extension  
-   b) Copy model.tflite into edge-firmware/lib/model/  
-   c) Build and upload to ESP32  
-      └─ cd edge-firmware  
-      └─ pio run --target upload  
+Software:
+Arduino IDE
 
-3) Dashboard
-   a) Install Node.js (v16+)  
-   b) Install and launch  
-      └─ cd dashboard  
-      └─ npm install  
-      └─ npm run dev  
-   c) Configure API endpoint in dashboard settings to  
-      http://<CLOUD_SERVER_IP>:8000  
+PlatformIO (Optional)
 
-SYSTEM ARCHITECTURE
--------------------
-Edge (TinyML) Path:
-  Sensor → ESP32 Preprocessing → TensorFlow Lite Inference → OLED/Serial Output
+Python 3.8+
 
-Cloud Path:
-  Sensor → ESP32 Preprocessing → JSON over MQTT/HTTP → FastAPI Inference → JSON Response → UI
+PyTorch
 
-Comparison Dashboard:
-  Collects and displays latency, accuracy, and power data from both paths in side-by-side charts.
+TensorFlow & TensorFlow Lite
 
-RESULTS & METRICS
------------------
-Metric               | TinyML (ESP32)   | Cloud ML (Server)
----------------------|------------------|-------------------
-Accuracy             | ~70%             | ~82%
-End-to-End Latency   | <50 ms           | 300–500 ms
-Power Consumption    | <200 mW          | N/A
+Flask (for cloud API)
 
-(See notebooks/analysis.ipynb for full logs and plots.)
+Excel (for dataset editing: morse_dataset.xlsx)
 
-DEFINITION OF DONE
-------------------
-[✔] Tap detection on ESP32 with >90% classification accuracy  
-[✔] TinyML inference latency <100 ms  
-[✔] Cloud model response <500 ms  
-[✔] Real-time comparison dashboard operational  
-[✔] Complete documentation and user guide included  
+📁 Folder Structure
 
-FUTURE SCOPE
-------------
-1) Multi-modal Input (audio + accelerometer + touch)  
-2) Bidirectional Feedback (vibration or audio output of Morse code)  
-3) On-device Adaptive Learning for personalized tap patterns  
-4) Lightweight Encryption for secure cloud communication  
+├── cloud_model/
+│   ├── morse_lstm.py
+│   ├── translate_api.py
+│   └── cloud_transformer.pt
+├── tinyml_model/
+│   ├── morse_lstm_tinyml.ipynb
+│   ├── tflite_model.h
+│   └── main_esp32.ino
+├── dataset/
+│   └── morse_dataset.xlsx
+├── README.md
+└── requirements.txt
+📊 Dataset
+Dataset: morse_dataset.xlsx
 
-LICENSE
--------
-This project is released under the MIT License. See the LICENSE file for details.
+Format: Sequences of dots and dashes (0 = dot, 1 = dash) paired with alphanumeric characters
 
-ACKNOWLEDGMENTS
----------------
-• TensorFlow Lite for Microcontrollers  
-• FastAPI & Uvicorn  
-• ESP32 and PlatformIO communities  
+Total samples: 40000
 
-“First transmitted in 1844, Morse code bridges distances—now with machine learning at both the edge and the cloud.”  
+Balanced distribution of letters and digits
+
+🧠 Model Architecture
+TinyML Model:
+Framework: TensorFlow Lite
+
+Architecture: 2-layer LSTM (quantized)
+
+Deployment: Runs on ESP32 (TFLite Micro)
+
+Cloud Model:
+Framework: PyTorch
+
+Architecture: 3-layer LSTM with 128 hidden units each
+
+Deployment: Flask API served over HTTP
+
+⚙️ How to Run
+1. Train the Models
+Cloud:
+cd cloud_model
+python morse_lstm.py
+
+TinyML:
+Run morse_lstm_tinyml.ipynb and export the model as TFLite .h file
+
+Flash main_esp32.ino to ESP32 using Arduino IDE
+
+2. Deploy the Cloud API
+cd cloud_model
+python translate_api.py
+
+4. Send Morse Code via ESP32
+Connect the TTP223B sensor to ESP32 GPIO
+
+Taps will be processed and either:
+
+Decoded locally (TinyML)
+
+Or sent via HTTP POST to the cloud server
+
+🧪 Evaluation
+Metric	TinyML (ESP32)	Cloud LSTM
+Accuracy	77.0%	89.0%
+Precision	75.0%	88.0%
+Recall	78.0%	90.0%
+F1 Score	76.0%	89.0%
+Avg Latency	~0.12 sec	~80.89 sec
+Internet Required	❌	✅
+
+🔄 Use Cases
+Assistive communication for people with speech/motor disabilities
+
+Disaster response in high-noise or tech-constrained environments
+
+Wearable device integration
+
+Offline communication using edge AI
+
+📚 References
+See the References Section in the report for all cited literature.
+
+📬 Contact
+For queries or collaborations, reach out to:
+
+Shail Garg: bl.en.u4cse22254@bl.students.amrita.edu
+
+Yerukola Gayatri: bl.en.u4cse22267@bl.students.amrita.edu
+
+Surya Kausthub A: bl.en.u4cse22287@bl.students.amrita.edu
+
+Pooja Gowda: g_pooja@blr.amrita.edu
