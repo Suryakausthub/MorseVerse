@@ -112,7 +112,7 @@ For queries, contact:
 - Shail Garg: bl.en.u4cse22254@bl.students.amrita.edu  
 - Yerukola Gayatri: bl.en.u4cse22267@bl.students.amrita.edu  
 - Surya Kausthub A: bl.en.u4cse22287@bl.students.amrita.edu  
-- Pooja Gowda
+- Pooja Gowda : g_pooja@blr.amrita.edu 
 
 ---
 
